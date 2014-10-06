@@ -28,7 +28,13 @@
 //
 
 #include "wl_def.h"
+#ifdef _WIN32
+#include "SDL_mixer.h"
+#elif __linux__
 #include <SDL/SDL_mixer.h>
+#else
+#include <SDL/SDL_mixer.h>
+#endif
 #include "fmopl.h"
 
 #pragma hdrstop
@@ -37,23 +43,23 @@
 
 typedef struct
 {
-	char RIFF[4];
-	longword filelenminus8;
-	char WAVE[4];
-	char fmt_[4];
-	longword formatlen;
-	word val0x0001;
-	word channels;
-	longword samplerate;
-	longword bytespersec;
-	word bytespersample;
-	word bitspersample;
+    char RIFF[4];
+    longword filelenminus8;
+    char WAVE[4];
+    char fmt_[4];
+    longword formatlen;
+    word val0x0001;
+    word channels;
+    longword samplerate;
+    longword bytespersec;
+    word bytespersample;
+    word bitspersample;
 } headchunk;
 
 typedef struct
 {
-	char chunkid[4];
-	longword chunklength;
+    char chunkid[4];
+    longword chunklength;
 } wavechunk;
 
 typedef struct
@@ -115,8 +121,8 @@ static  longword                sqHackTime;
 
 static void SDL_SoundFinished(void)
 {
-	SoundNumber   = (soundnames)0;
-	SoundPriority = 0;
+    SoundNumber   = (soundnames)0;
+    SoundPriority = 0;
 }
 
 
@@ -1070,7 +1076,7 @@ SD_Startup(void)
         YM3812Write(0,i,0);
 
     YM3812Write(0,1,0x20); // Set WSE=1
-//    YM3812Write(0,8,0); // Set CSM=0 & SEL=0		 // already set in for statement
+//    YM3812Write(0,8,0); // Set CSM=0 & SEL=0       // already set in for statement
 
     Mix_HookMusic(SDL_IMFMusicPlayer, 0);
     Mix_ChannelFinished(SD_ChannelFinished);

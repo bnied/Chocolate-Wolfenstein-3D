@@ -10,15 +10,23 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#if !defined(_WIN32)
-#	include <stdint.h>
-#	include <string.h>
-#	include <stdarg.h>
+// Win32
+#ifdef _WIN32
+#include <wtypes.h>
+#include "SDL.h"
+#include "SDL_syswm.h"
 #endif
+#if !defined(_WIN32)
+#   include <stdint.h>
+#   include <string.h>
+#   include <stdarg.h>
 #include <SDL/SDL.h>
 
+#endif
+
+
 #if !defined O_BINARY
-#	define O_BINARY 0
+#   define O_BINARY 0
 #endif
 
 #pragma pack(1)
@@ -50,7 +58,10 @@ typedef uint8_t byte;
 typedef uint16_t word;
 typedef int32_t fixed;
 typedef uint32_t longword;
+// Win32
+#ifndef _WIN32
 typedef int8_t boolean;
+#endif
 typedef void * memptr;
 
 typedef struct
@@ -1316,7 +1327,7 @@ extern  void    EndText(void);
 
 static inline fixed FixedMul(fixed a, fixed b)
 {
-	return (fixed)(((int64_t)a * b + 0x8000) >> 16);
+    return (fixed)(((int64_t)a * b + 0x8000) >> 16);
 }
 
 #ifdef PLAYDEMOLIKEORIGINAL
@@ -1336,6 +1347,8 @@ static inline fixed FixedMul(fixed a, fixed b)
 
 #define CHECKMALLOCRESULT(x) if(!(x)) Quit("Out of memory at %s:%i", __FILE__, __LINE__)
 
+// Mingw32 includes these definitions in string.h
+#ifndef __MINGW32__
 #ifdef _WIN32
     #define strcasecmp stricmp
     #define strncasecmp strnicmp
@@ -1343,15 +1356,16 @@ static inline fixed FixedMul(fixed a, fixed b)
 #else
     static inline char* itoa(int value, char* string, int radix)
     {
-	    sprintf(string, "%d", value);
-	    return string;
+        sprintf(string, "%d", value);
+        return string;
     }
 
     static inline char* ltoa(long value, char* string, int radix)
     {
-	    sprintf(string, "%ld", value);
-	    return string;
+        sprintf(string, "%ld", value);
+        return string;
     }
+#endif
 #endif
 
 #define lengthof(x) (sizeof(x) / sizeof(*(x)))

@@ -2,8 +2,11 @@
 
 // wolf compatability
 
-#ifndef ID_VL.H 
-#define ID_VL.H
+// Win32
+//#ifndef ID_VL.H 
+//#define ID_VL.H
+#ifndef ID_VL_H 
+#define ID_VL_H
 
 #include "wl_def.h"
 
@@ -11,8 +14,8 @@ void Quit (const char *error,...);
 
 //===========================================================================
 
-#define CHARWIDTH		2
-#define TILEWIDTH		4
+#define CHARWIDTH       2
+#define TILEWIDTH       4
 
 //===========================================================================
 
@@ -22,8 +25,8 @@ extern  boolean  fullscreen, usedoublebuffering;
 extern  unsigned screenWidth, screenHeight, screenBits, screenPitch, bufferPitch, curPitch;
 extern  unsigned scaleFactor;
 
-extern	boolean  screenfaded;
-extern	unsigned bordercolor;
+extern  boolean  screenfaded;
+extern  unsigned bordercolor;
 
 extern SDL_Color gamepal[256];
 
